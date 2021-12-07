@@ -13,9 +13,13 @@ class ABoundedStack(ABC, Generic[T]):
     PEEK_OK = 1  # last peek() succeeded
     PEEK_ERR = 2  # stack is empty
 
+    # 1. typo: should be push not pop
+    # 2. status for push nil.
     PUSH_NIL = 0  # pop() has not been called
     PUSH_OK = 1  # last push() succeeded
     PUSH_ERR = 2  # stack is full
+
+    # 3. no comments on post-condition for constructor.
 
     # commands:
 

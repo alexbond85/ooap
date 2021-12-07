@@ -4,6 +4,8 @@ from typing import Generic, TypeVar
 T = TypeVar('T')
 
 
+# 0. Questions 2.2 and 2.3 not answered in the submission!
+
 class LinkedList(ABC, Generic[T]):
 
     # constructor: empty LinkedList, cursor pointing at a default position, e.g "#".
@@ -22,12 +24,16 @@ class LinkedList(ABC, Generic[T]):
     def tail(self) -> None:
         pass
 
+    # 1. Essentially the same as in the recommended solution. Except as
+    #    added additional logic for moving the cursor. Moving a cursor might be
+    #    not a very good idea...
     # pre-condition: list not empty, cursor is not pointing at the tail. cursor pointing to an element in the list.
     # post-condition: cursor is pointing to the next node in the list.
     @abstractmethod
     def right(self) -> None:
         pass
 
+    # 2. Added logic for handling empty list.
     # post-condition: inserted an element to the right of the current element in the list, or at the head/tail,
     # if empty.
     # cursor pointing to the inserted element.
@@ -43,6 +49,7 @@ class LinkedList(ABC, Generic[T]):
     def put_left(self):
         pass
 
+    # 3. Again, added logic for the cursor.
     # post-condition: linked list has no elements.
     #                 cursor moved to the default position.
     @abstractmethod
@@ -63,12 +70,14 @@ class LinkedList(ABC, Generic[T]):
     def remove_all(self, value: T) -> None:
         pass
 
+    # 4. Similar to the recommended solution.
     # pre-condition: cursor is pointing at a node of the list
     # post-condition: value at the node is replaced by the given value
     @abstractmethod
     def replace(self, value: T) -> None:
         pass
 
+    # 5. Logic for moving the cursor is different.
     # post-condition: cursor moved to next node with the given value
     # if node with such value does not exist cursor is moved to the dummy position/is not pointing at any element.
     @abstractmethod
@@ -106,3 +115,17 @@ class LinkedList(ABC, Generic[T]):
     @abstractmethod
     def is_value(self) -> bool:
         pass
+
+    # 6. Did not include status methods. Originally placed the
+    #    status into the logic of the position of the cursor, which
+    #    makes the design unnecessary complicated.
+    # def  get_head_status(); // успешно; список пуст
+    # def  get_tail_status(); // успешно; список пуст
+    # def  get_right_status(); // успешно; правее нету элемента
+    # def  get_put_right_status(); // успешно; список пуст
+    # def  get_put_left_status(); // успешно; список пуст
+    # def  get_remove_status(); // успешно; список пуст
+    # def  get_replace_status(); // успешно; список пуст
+    # def  get_find_status(); // следующий найден;
+    #                      // следующий не найден; список пуст
+    # def  get_get_status(); // успешно; список пуст
