@@ -30,8 +30,15 @@ class Node(ABC, Generic[T]):
     def value(self) -> T:
         pass
 
+    @abstractmethod
+    def update_value(self, value) -> None:
+        pass
+
 
 class DummyNode(Node):
+
+    def update_value(self, value) -> None:
+        pass
 
     def update_prev(self, new_prev_node: Node) -> None:
         pass
@@ -54,6 +61,9 @@ class DummyNode(Node):
 
 class NodeInTheList(Node):
 
+    def update_value(self, value) -> None:
+        self._value = value
+
     def update_prev(self, new_prev_node: Node) -> None:
         self._prev = new_prev_node
 
@@ -61,10 +71,10 @@ class NodeInTheList(Node):
         self._next = new_next_node
 
     def value(self) -> T:
-        return self.value
+        return self._value
 
     def __init__(self, value: T, next_node: Node = DummyNode(), prev_node: Node = DummyNode()):
-        self.value = value
+        self._value = value
         self._next = next_node
         self._prev = prev_node
 
@@ -242,6 +252,19 @@ class ParentList(AParentList):
     REMOVE_OK = 1
     REMOVE_ERR = 2
 
+    GET_NIL = 0
+    GET_OK = 1
+    GET_ERR = 2
+
+    REPLACE_NIL = 0
+    REPLACE_OK = 1
+    REPLACE_ERR = 2
+
+    FIND_NIL = 0
+    FIND_OK = 1
+    FIND_NOT_FOUND = 2
+    FIND_ERR = 3
+
     def __init__(self):
         self._head: Node = DummyNode()
         self._tail: Node = DummyNode()
@@ -252,6 +275,9 @@ class ParentList(AParentList):
         self._put_right_status = self.PUT_RIGHT_NIL
         self._put_left_status = self.PUT_LEFT_NIL
         self._remove_status = self.REMOVE_NIL
+        self._get_status = self.GET_NIL
+        self._replace_status = self.REPLACE_NIL
+        self._find_status = self.FIND_NIL
 
     def head(self) -> None:
         if self._head.has_content():
@@ -262,13 +288,13 @@ class ParentList(AParentList):
 
     def tail(self) -> None:
         if self._tail.has_content():
-            self._cursor = self._head
+            self._cursor = self._tail
             self._tail_status = self.TAIL_OK
         else:
             self._tail_status = self.TAIL_ERR
 
     def right(self) -> None:
-        if self._cursor.has_content() and self._cursor.next().has_content():
+        if self.is_value() and self._cursor is not self._tail:
             self._cursor = self._cursor.next()
             self._right_status = self.RIGHT_OK
         else:
@@ -328,22 +354,66 @@ class ParentList(AParentList):
             self._remove_status = self.REMOVE_ERR
 
     def remove_all(self, value: T) -> None:
-        pass
+        self.head()
+        if self.get_head_status() == self.HEAD_OK:
+            assert self._cursor == self._head
+            while self.is_value():
+                if self._cursor.value() == value:
+                    self.remove()
+                else:
+                    self.right()
+                if self.get_right_status() == self.RIGHT_ERR:
+                    self.head()
+                    return
 
     def replace(self, value: T) -> None:
-        pass
+        if self.is_value():
+            self._cursor.update_value(value)
+            self._replace_status = self.REPLACE_OK
+        else:
+            self._replace_status = self.REPLACE_ERR
 
     def find(self, value: T) -> None:
-        pass
+        if self._tail.has_content():
+            if not self.is_value():
+                self.head()
+            while self._cursor.next().has_content():
+                self.right()
+                if self._cursor.value() == value:
+                    self._find_status = self.FIND_OK
+                    return
+            self._find_status = self.FIND_NOT_FOUND
+        else:
+            self._find_status = self.FIND_ERR
 
     def add_tail(self, value: T) -> None:
-        pass
+        if self._tail.has_content():
+            previous_tail = self._tail
+            new_tail = NodeInTheList(value=value,
+                                     prev_node=previous_tail)
+            previous_tail.update_next(new_tail)
+            self._tail = new_tail
+        else:
+            new_tail = NodeInTheList(value=value)
+            self._tail = new_tail
+            self._head = new_tail
 
     def get(self) -> T:
-        pass
+        if self.is_value():
+            self._get_status = self.GET_OK
+            return self._cursor.value()
+        else:
+            self._get_status = self.GET_ERR
 
     def size(self):
-        pass
+        counter = 0
+        if self._head.has_content():
+            n = self._head
+            counter = 1
+            while n.next().has_content():
+                counter += 1
+                n = n.next()
+        return counter
 
     def is_head(self) -> bool:
         return self._cursor is self._head
@@ -373,10 +443,10 @@ class ParentList(AParentList):
         return self._remove_status
 
     def get_replace_status(self):
-        pass
+        return self._replace_status
 
     def get_find_status(self):
-        pass
+        return self._find_status
 
     def get_get_status(self):
-        pass
+        return self._get_status
