@@ -38,16 +38,16 @@ class Node(ABC, Generic[T]):
 class DummyNode(Node):
 
     def update_value(self, value) -> None:
-        pass
+        raise KeyError
 
     def update_prev(self, new_prev_node: Node) -> None:
-        pass
+        raise KeyError
 
     def update_next(self, new_next_node: Node) -> None:
-        pass
+        raise KeyError
 
     def value(self) -> T:
-        raise NotImplemented
+        raise KeyError
 
     def has_content(self) -> bool:
         return False
@@ -450,3 +450,25 @@ class ParentList(AParentList):
 
     def get_get_status(self):
         return self._get_status
+
+
+class TwoWayList(ParentList):
+    LEFT_NIL = 0
+    LEFT_OK = 1
+    LEFT_ERR = 2
+
+    def __init__(self):
+        super().__init__()
+        self._left_status = self.LEFT_NIL
+
+    def left(self):
+        if not self.is_value():
+            self._left_status = self.LEFT_ERR
+        elif self.is_head():
+            self._left_status = self.LEFT_ERR
+        else:
+            self._cursor = self._cursor.prev()
+            self._left_status = self.LEFT_OK
+
+    def get_left_status(self) -> int:
+        return self._left_status
