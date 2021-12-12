@@ -4,6 +4,9 @@ from typing import Generic, TypeVar
 
 T = TypeVar('T')
 
+# 1. Различия: в решении на сервере есть методы put_left, put_right.
+#    Пред- и постусловия, разбиение на команды и запросы, включаю статусы, в целом совпадают с решением на сервере.
+
 
 class ADynArray(ABC, Generic[T]):
     INSERT_NIL = 0
