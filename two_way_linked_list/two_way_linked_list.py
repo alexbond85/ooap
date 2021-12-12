@@ -461,6 +461,9 @@ class TwoWayList(ParentList):
         super().__init__()
         self._left_status = self.LEFT_NIL
 
+    # 1. не было добавлено пред- и постусловий в описании
+    # предусловие: левее курсора есть элемент
+    # постусловие: курсор сдвинут на один узел влево
     def left(self):
         if not self.is_value():
             self._left_status = self.LEFT_ERR
