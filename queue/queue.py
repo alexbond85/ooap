@@ -30,7 +30,12 @@ class AQueue(ABC, Generic[T]):
     def size(self):
         pass
 
+    # 1. Вместо get у меня сохраняется последний
+    #    удаленный элемент. Решение на сервере
+    #    более конвенционально
     # возврат удаленного элемента
+
+    # 2. Учтен статус для get (в моем случае для dequeued item)
     @abstractmethod
     def dequeued_item(self) -> T:
         pass
