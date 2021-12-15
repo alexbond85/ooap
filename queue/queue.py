@@ -48,23 +48,23 @@ class AQueue(ABC, Generic[T]):
 class Queue(AQueue):
 
     def __init__(self):
-        self.arr = []
+        self._arr = []
         self._dequeued_item = None
         self._dequeue_status = self.DEQUEUE_NIL
 
     def enqueue(self, item: T) -> None:
-        self.arr.append(item)
+        self._arr.append(item)
 
     def dequeue(self):
         if self.size() == 0:
             self._dequeue_status = self.DEQUEUE_ERR
             self._dequeued_item = None
         else:
-            self._dequeued_item = self.arr.pop(0)
+            self._dequeued_item = self._arr.pop(0)
             self._dequeue_status = self.DEQUEUE_OK
 
     def size(self):
-        return len(self.arr)
+        return len(self._arr)
 
     def dequeued_item(self) -> T:
         return self._dequeued_item
