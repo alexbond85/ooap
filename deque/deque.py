@@ -3,6 +3,10 @@ from typing import Generic, TypeVar
 
 T = TypeVar('T')
 
+# 1. Решение очень похоже.
+# Отличия: методы-аlias-ы  add_tail вызывает метод enqueue.
+# Лучше, конечно, все методы в иерархии гармонизировать.
+
 
 class AQueue(ABC, Generic[T]):
     GET_NIL = 0
