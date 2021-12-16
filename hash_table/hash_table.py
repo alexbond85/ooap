@@ -106,6 +106,8 @@ class HashTable(AHashTable):
         else:
             self._remove_slot_status = self.REMOVE_ERR
 
+    # 1. АДТ на сервере отличается. Вместо find возвращающий int или None (не лучший вариант!) и последующим
+    #   запросом о статусе, в предложенном решение используется get c возвратом булеан значения. Так гораздо лучше.
     def find(self, value: T) -> int:
         slot = self._seek_slot(value)
         is_slot_found = self._seek_slot_status == self.SEEK_SLOT_OK
