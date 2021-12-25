@@ -41,10 +41,6 @@ class ChimpanzeeOwner(MammalOwner[Chimpanzee]):
         return Chimpanzee()
 
 
-def print_class_names(mammals: Sequence[Mammal]):  # Sequence не мутабильна!
-    print([repr(m) for m in mammals])
-
-
 # ######################################## коваринтность конец ######################################## #
 
 # ###################################### контравариантность ########################################### #
@@ -57,6 +53,7 @@ class Security(Employee):
 
 
 EmployeeType_contra = TypeVar('EmployeeType_contra', bound=Employee, contravariant=True)
+EmployeeType_co = TypeVar('EmployeeType_co', bound=Employee, covariant=True)
 
 
 class NotificationService(Generic[EmployeeType_contra]):
@@ -81,9 +78,6 @@ class NotificationServiceSecurity(NotificationService[Security]):
 if __name__ == '__main__':
     # 1. ковариантность. "Pure sources are covariant".
     # для проверки типов запускаем mypy.
-    print_class_names((Cat(),))
-    print_class_names((Chimpanzee(), Chimpanzee()))
-
     owner: MammalOwner[Mammal] = CatOwner()
 
     # 2. контравариантность
