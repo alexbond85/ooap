@@ -1,7 +1,9 @@
 # see https://kimmosaaskilahti.fi/blog/2020-02-10-covariance-and-contravariance-in-generic-types/
 from abc import ABC, abstractmethod
-from typing import Generic, Sequence, TypeVar
+from typing import Generic, TypeVar
 
+
+# ########################################## коваринтность ########################################### #
 
 class Mammal:
 
@@ -13,13 +15,6 @@ class Chimpanzee(Mammal):
     pass
 
 
-class Cat(Mammal):
-    pass
-
-
-# ########################################## коваринтность ########################################### #
-
-
 Mammal_co = TypeVar('Mammal_co', bound=Mammal, covariant=True)
 
 
@@ -27,12 +22,6 @@ class MammalOwner(ABC, Generic[Mammal_co]):
     @abstractmethod
     def present(self) -> Mammal_co:
         pass
-
-
-class CatOwner(MammalOwner[Cat]):
-
-    def present(self) -> Cat:
-        return Cat()
 
 
 class ChimpanzeeOwner(MammalOwner[Chimpanzee]):
@@ -53,7 +42,6 @@ class Security(Employee):
 
 
 EmployeeType_contra = TypeVar('EmployeeType_contra', bound=Employee, contravariant=True)
-EmployeeType_co = TypeVar('EmployeeType_co', bound=Employee, covariant=True)
 
 
 class NotificationService(Generic[EmployeeType_contra]):
@@ -78,7 +66,7 @@ class NotificationServiceSecurity(NotificationService[Security]):
 if __name__ == '__main__':
     # 1. ковариантность. "Pure sources are covariant".
     # для проверки типов запускаем mypy.
-    owner: MammalOwner[Mammal] = CatOwner()
+    owner: MammalOwner[Mammal] = ChimpanzeeOwner()
 
     # 2. контравариантность
     notification_service_security: NotificationService[Security] = NotificationServiceEmployee()
