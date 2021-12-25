@@ -38,7 +38,9 @@ class Employee:
 
 
 class Security(Employee):
-    pass
+
+    def secret_name(self) -> str:
+        return f"{self.__class__.__name__}.random"
 
 
 EmployeeType_contra = TypeVar('EmployeeType_contra', bound=Employee, contravariant=True)
@@ -56,7 +58,7 @@ class NotificationServiceEmployee(NotificationService[Employee]):
 class NotificationServiceSecurity(NotificationService[Security]):
 
     def notify(self, employee: Security):
-        print("confidential")
+        print(f"confidential for {employee.secret_name()}")
         super(NotificationServiceSecurity, self).notify(employee)
 
 
