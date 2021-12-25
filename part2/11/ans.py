@@ -64,8 +64,9 @@ class NotificationServiceSecurity(NotificationService[Security]):
 
 
 if __name__ == '__main__':
-    # 1. ковариантность. "Pure sources are covariant".
     # для проверки типов запускаем mypy.
+
+    # 1. ковариантность.
     owner: MammalOwner[Mammal] = ChimpanzeeOwner()
 
     # 2. контравариантность
