@@ -5,6 +5,7 @@ from typing import Generic, TypeVar
 
 # ########################################## коваринтность ########################################### #
 
+
 class Mammal:
 
     def __repr__(self):
@@ -73,3 +74,9 @@ if __name__ == '__main__':
 
     # 2. контравариантность
     notification_service_security: NotificationService[Security] = NotificationServiceEmployee()
+    notification_service_security.notify(employee=Security())
+    # т.е.
+    # NotificationService[Employee] является "потомком" NotificationService[Security]
+    # перепроверка:
+    # s: Security = Employee()  # ERROR
+    # e: Employee = Security()  # NO ERROR
