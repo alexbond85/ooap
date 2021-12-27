@@ -2,7 +2,7 @@ import pickle
 from copy import deepcopy
 
 
-class General:
+class General(object):
 
     # команды
 
@@ -44,14 +44,18 @@ class General:
         return r
 
 
-class Array(General):
+class Any(General):
+    pass
+
+
+class Array(Any):
 
     def __init__(self):
         self.xs = [1, 2, [3, 4]]
         self.name = "xs"
 
 
-class Counter(General):
+class Counter(Any):
     def __init__(self):
         self.count = 0
 
@@ -72,4 +76,3 @@ if __name__ == '__main__':
     array_deserialized = Array.deserialize(array_bytes)
     assert array.eq(array_deserialized)
     assert id(array) != id(array_deserialized)
-
