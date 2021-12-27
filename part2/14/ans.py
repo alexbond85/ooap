@@ -2,6 +2,7 @@ import pickle
 import random
 from abc import ABC, abstractmethod
 from copy import deepcopy
+from typing import Tuple
 
 
 class General(object):
@@ -92,7 +93,7 @@ class Text(Any):
         printer.print(self._msg)
 
 
-class Void(ChaoticPrinter, UpperCasePrinter, Text, TypeNone):
+class Void(Text, Printer, TypeNone):
 
     def __init__(self):
         pass
@@ -100,11 +101,11 @@ class Void(ChaoticPrinter, UpperCasePrinter, Text, TypeNone):
 
 if __name__ == '__main__':
     # полиморфное использование Void: Void может быть как Printer, так и Text
-    texts_and_printers = [
+    texts_and_printers: Tuple[Text, Printer] = [
         (Void(), ChaoticPrinter()),
         (Text("hello from pycharm"), Void()),
         (Text("hello from pycharm"), ChaoticPrinter())
-    ]
+    ]  #  linter shows and error....
     for text, printer in texts_and_printers:
         if text != Void() and printer != Void():
             text.print(printer)  # hellO frOM PychaRM
