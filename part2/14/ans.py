@@ -99,6 +99,7 @@ class Void(ChaoticPrinter, UpperCasePrinter, Text, TypeNone):
 
 
 if __name__ == '__main__':
+    # полиморфное использование Void: Void может быть как Printer, так и Text
     texts_and_printers = [
         (Void(), ChaoticPrinter()),
         (Text("hello from pycharm"), Void()),
