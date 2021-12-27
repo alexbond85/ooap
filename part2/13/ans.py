@@ -12,7 +12,7 @@ class Base:
 
 class Derived(Base):
 
-    def foo(self):  # SonarLint: 'Base.foo' is marked as '@final' and should not be overridden
+    def foo(self):  # SonarLint: 'Base.foo' is marked as '@final' and should not be overridden.
         pass
 
     # mypy doesn't catch it. Issue: https://github.com/python/mypy/issues/9618
