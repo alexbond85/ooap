@@ -2,7 +2,7 @@ import pickle
 import random
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import Tuple
+from typing import Tuple, Union
 
 
 class General(object):
@@ -48,7 +48,7 @@ class General(object):
 
     # в python нет возможности аргументу target аргумент source, т.е. нет возможности сделать из этого
     # метода команду
-    def assignment_attempt(self, target: "General", source: "General"):
+    def assignment_attempt(self, target: "General", source: "General") -> Union["General", None]:
         if target.isinstance(source.type()):
             return source
         else:
