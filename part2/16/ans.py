@@ -11,7 +11,7 @@ class A:
         return self.__a
 
     def _b(self) -> str:
-        return self.__a
+        return self.__b
 
     def __c(self) -> str:
         return self.__c
