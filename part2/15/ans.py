@@ -82,4 +82,3 @@ if __name__ == '__main__':
     # 2. типы не совпадают
     target = source.assignment_attempt(B(), source)
     assert target is None
-
