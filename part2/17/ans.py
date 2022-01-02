@@ -66,7 +66,7 @@ class Str(Addable):
         self.value = value
 
     def __add__(self, other: Addable):
-        if isinstance(other, Str):  # не знаю, как избежать проверки...
+        if isinstance(other, Str):  # не знаю, как иначе
             return Str(self.value + other.value)
         raise ValueError
 
@@ -103,7 +103,7 @@ class Vector(Addable, Generic[T]):
             xs = []
             if self.len() == other.len():
                 for x, y in zip(self, other):
-                    xs.append(x + y)
+                    xs.append(x+y)
                 return Vector(*xs)
             return None
         else:
@@ -117,11 +117,11 @@ if __name__ == '__main__':
     a = Int(1)
     b = Int(2)
     v_int: Vector[Int] = Vector(a, b)
-    print(v_int + v_int)  # (2, 4)
+    print(v_int + v_int)  #
     a = Str("a")
     b = Str("b")
     c = Str("c")
     d = Str("d")
-    v1: Vector[Vector[Str]] = Vector(Vector(a, b), Vector(c, d))
-    v2: Vector[Vector[Str]] = Vector(Vector(d, c), Vector(b, a))
-    print(v1 + v2)  # ((ad, bc), (cb, da))
+    vs: Vector[Vector[Int]] = Vector(Vector(a, b), Vector(c, ))
+    print(vs + vs)
+
