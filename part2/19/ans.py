@@ -27,7 +27,7 @@ class Pizza:
     def price(self) -> float:
         price = self._basis_price()
         for i in self._ingredients:
-            price += i.price(self._size)
+            price += i.price(pizza_size=self._size)
         return price
 
 
